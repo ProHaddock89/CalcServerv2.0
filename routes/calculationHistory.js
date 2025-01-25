@@ -1,44 +1,45 @@
 const express = require('express');
-const axios = require('axios');
 const router = express.Router();
+const History = require('../models/History');
 
-const backendURL = 'https://calc-server-hgvf.onrender.com/api/calculationHistory';
-
-// Route to get all calculation history from the backend
-router.get('/proxyHistory', async (req, res) => {
+// Get all history entries
+router.get('/', async (req, res) => {
     try {
-        console.log(`[${new Date().toISOString()}] Fetching calculation history...`);
-        const response = await axios.get(backendURL);
-        console.log(`[${new Date().toISOString()}] Calculation history fetched successfully.`);
-        res.json(response.data); // Respond with data from the backend
+        const history = await History.find();
+        res.json(history);
     } catch (error) {
-        const errorMessage = error.response?.data || error.message || 'Unknown error';
-        console.error(`[${new Date().toISOString()}] Error fetching calculation history:`, errorMessage);
-        res.status(500).json({ error: `Failed to retrieve calculation history: ${errorMessage}` });
+        res.status(500).json({ error: error.message });
     }
 });
 
-// Route to create a new calculation history entry
-router.post('/proxyHistory', async (req, res) => {
+// Add a new history entry
+router.post('/', async (req, res) => {
     try {
-        const newEntry = req.body;
-        if (!newEntry || Object.keys(newEntry).length === 0) {
-            return res.status(400).json({ error: 'Invalid input. Body cannot be empty.' });
-        }
-
-        console.log(`[${new Date().toISOString()}] Sending new entry to backend:`, newEntry);
-        const response = await axios.post(backendURL, newEntry, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        console.log(`[${new Date().toISOString()}] History entry saved successfully.`);
-        res.status(201).json(response.data); // Respond with created entry
+        const newHistory = new History(req.body);
+        const savedHistory = await newHistory.save();
+        res.status(201).json(savedHistory);
     } catch (error) {
-        const errorMessage = error.response?.data || error.message || 'Unknown error';
-        console.error(`[${new Date().toISOString()}] Error saving calculation history:`, errorMessage);
-        res.status(500).json({ error: `Failed to save calculation history: ${errorMessage}` });
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Delete a specific history entry
+router.delete('/:id', async (req, res) => {
+    try {
+        await History.findByIdAndDelete(req.params.id);
+        res.json({ message: 'History entry deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Delete all history entries
+router.delete('/', async (req, res) => {
+    try {
+        await History.deleteMany();
+        res.json({ message: 'All history entries deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 

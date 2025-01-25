@@ -1,27 +1,23 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const connectDB = require('./config/db');
+const notesRoutes = require('./routes/notes');
+const historyRoutes = require('./routes/calculationHistory');
 const cors = require('cors');
-const notesRouter = require('./routes/notes');
-const calculationHistoryRouter = require('./routes/calculationHistory');
+require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+
+// Connect to MongoDB
+connectDB();
 
 // Middleware
+app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
-
-// Logging middleware
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
-    next();
-});
 
 // Routes
-app.use('/api/notes', notesRouter);
-app.use('/api/calculationHistory', calculationHistoryRouter);
+app.use('/api/notes', notesRoutes);
+app.use('/api/calculationHistory', historyRoutes);
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`This Awesome Server is running on the port: http://localhost:${PORT}`);
-});
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

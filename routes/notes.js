@@ -1,21 +1,36 @@
 const express = require('express');
 const router = express.Router();
+const Note = require('../models/Note');
 
-// Example: In-memory storage for notes (replace with a database in production)
-let notes = [];
-
-// Route to get all notes
-router.get('/', (req, res) => {
-    res.json(notes);
+// Get all notes
+router.get('/', async (req, res) => {
+    try {
+        const notes = await Note.find();
+        res.json(notes);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-// Route to create a new note
-router.post('/', (req, res) => {
-    const newNote = req.body;
-    notes.push(newNote); // Save the note (consider adding validation)
-    res.status(201).json(newNote); // Respond with the created note
+// Create a new note
+router.post('/', async (req, res) => {
+    try {
+        const newNote = new Note(req.body);
+        const savedNote = await newNote.save();
+        res.status(201).json(savedNote);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
 });
 
-// Additional routes for notes (e.g., update, delete) can go here
+// Delete a note by ID
+router.delete('/:id', async (req, res) => {
+    try {
+        await Note.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Note deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 module.exports = router;
