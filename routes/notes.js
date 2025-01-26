@@ -3,7 +3,7 @@ const router = express.Router();
 const Note = require('../models/Note');
 
 // Get all notes
-router.get('/', async (req, res) => {
+router.get('/notes', async (req, res) => {
     try {
         const notes = await Note.find();
         res.json(notes);
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create a new note
-router.post('/', async (req, res) => {
+router.post('/notes', async (req, res) => {
     try {
         const newNote = new Note(req.body);
         const savedNote = await newNote.save();
@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
 });
 
 // Delete a note by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/notes/:id', async (req, res) => {
     try {
         await Note.findByIdAndDelete(req.params.id);
         res.json({ message: 'Note deleted successfully' });
