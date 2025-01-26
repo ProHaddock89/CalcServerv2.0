@@ -1,18 +1,13 @@
 const mongoose = require('mongoose');
 
-// Environment variable for the MongoDB URI
 const MONGO_URI = process.env.MONGO_URI;
 
-// Create separate connections for Notes and History databases
-const notesConnection = mongoose.createConnection(`${MONGO_URI}/Notes`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+// Connect to the MongoDB databases
+const connectDB = () => {
+  mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.error('MongoDB connection error:', err));
+};
 
-const historyConnection = mongoose.createConnection(`${MONGO_URI}/History`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-
-// Export the connections for use in models
-module.exports = { notesConnection, historyConnection };
+// Export the function so it can be used elsewhere
+module.exports = connectDB;
