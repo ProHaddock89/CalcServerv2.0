@@ -1,22 +1,20 @@
-// server.js
-
 const express = require('express');
-const connectDB = require('./config/db'); // Adjust the path if needed
 const cors = require('cors');
+const connectDB = require('./config/db');
+const notesRoutes = require('./routes/notes');
+
 const app = express();
 
-// Allow CORS for your frontend domain
-app.use(cors({
-    origin: 'https://your-frontend-url.com', // Replace with your actual frontend URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
-
-// Other middleware and routes
-
+// Middleware
+app.use(cors()); // Adjust origin if needed
+app.use(express.json());
 
 // Connect to MongoDB
 connectDB();
 
-app.listen(10000, () => {
-    console.log('Server running on port 10000');
-});
+// Routes
+app.use(notesRoutes);
+
+// Server
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
