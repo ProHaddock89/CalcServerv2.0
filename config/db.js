@@ -4,12 +4,12 @@ const mongoose = require('mongoose');
 const MONGO_URI = process.env.MONGO_URI;
 
 // Create separate connections for Notes and History databases
-const notesConnection = mongoose.createConnection(`${MONGO_URI}Notes`, {
+const notesConnection = mongoose.createConnection(`${MONGO_URI}/Notes`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
 
-const historyConnection = mongoose.createConnection(`${MONGO_URI}History`, {
+const historyConnection = mongoose.createConnection(`${MONGO_URI}/History`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
