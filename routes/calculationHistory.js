@@ -3,7 +3,7 @@ const router = express.Router();
 const History = require('../models/History');
 
 // Get all history entries
-router.get('/', async (req, res) => {
+router.get('/history', async (req, res) => {
     try {
         const history = await History.find();
         res.json(history);
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 // Add a new history entry
-router.post('/', async (req, res) => {
+router.post('/history', async (req, res) => {
     try {
         const newHistory = new History(req.body);
         const savedHistory = await newHistory.save();
@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
 });
 
 // Delete a specific history entry
-router.delete('/:id', async (req, res) => {
+router.delete('/history/:id', async (req, res) => {
     try {
         await History.findByIdAndDelete(req.params.id);
         res.json({ message: 'History entry deleted successfully' });
@@ -34,7 +34,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // Delete all history entries
-router.delete('/', async (req, res) => {
+router.delete('/history', async (req, res) => {
     try {
         await History.deleteMany();
         res.json({ message: 'All history entries deleted successfully' });

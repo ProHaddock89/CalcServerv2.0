@@ -1,4 +1,4 @@
-const { notesConnection } = require('../config/db');  // Ensure the path is correct
+const { notesConnection } = require('../config/db').notesConnection;  // Ensure the path is correct
 const mongoose = require('mongoose');
 
 const NoteSchema = new mongoose.Schema({

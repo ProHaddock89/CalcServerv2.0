@@ -1,5 +1,5 @@
+const { historyConnection } = require('../config/db').historyConnection;
 const mongoose = require('mongoose');
-const { historyConnection } = require('../config/db');
 
 const HistorySchema = new mongoose.Schema({
     title: { type: String, required: true },
