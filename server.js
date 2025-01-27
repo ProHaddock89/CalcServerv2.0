@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('./config/db.js');
+const { connectDB } = require('./config/db.js'); // Use destructuring
 const notesRoutes = require('./routes/notes.js');
 
 const app = express();
