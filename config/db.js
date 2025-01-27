@@ -19,6 +19,7 @@ const notesConnection = mongoose.createConnection(`${MONGO_URI}Notes`, {
     useUnifiedTopology: true,
 });
 
+
 const historyConnection = mongoose.createConnection(`${MONGO_URI}History`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
