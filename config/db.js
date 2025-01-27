@@ -26,6 +26,3 @@ const historyConnection = mongoose.createConnection(`${MONGO_URI}History`, {
 
 module.exports = { connectDB, notesConnection, historyConnection };
 
-
-module.exports = { connectDB, notesConnection, historyConnection };
-
