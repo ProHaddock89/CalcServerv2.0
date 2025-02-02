@@ -1,20 +1,11 @@
 const express = require('express');
-const cors = require('cors');
-const { connectDB } = require('./config/db.js'); // Use destructuring
-const notesRoutes = require('./routes/notes.js');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');  // Ensure this path is correct
 
+dotenv.config();
 const app = express();
 
-// Middleware
-app.use(cors()); // Adjust origin if needed
-app.use(express.json());
-
 // Connect to MongoDB
-connectDB();
+connectDB();  // Ensure this is correctly imported and called
 
-// Routes
-app.use(notesRoutes);
-
-// Server
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(5000, () => console.log(`Server running on port 5000`));

@@ -1,13 +1,16 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const notesConnection = mongoose.createConnection(process.env.NOTES_DB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.NOTES_DB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log('MongoDB Connected...');
+    } catch (error) {
+        console.error('Error connecting to MongoDB:', error.message);
+        process.exit(1);
+    }
+};
 
-const historyConnection = mongoose.createConnection(process.env.HISTORY_DB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-module.exports = { notesConnection, historyConnection };
+module.exports = connectDB;
