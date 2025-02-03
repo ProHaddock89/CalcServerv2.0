@@ -10,7 +10,7 @@ app.use(express.json());
 
 connectDB();  // Ensure MongoDB is connected
 
-app.use('/api/notes', require('./routes/notes'));  // ✅ Ensure this line is here
+app.use('/api/notes', require('./routes/notes'));  // vital line
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

@@ -1,16 +1,11 @@
-const mongoose = require("mongoose");
-const { notesConnection } = require("../config/db");
-
-if (!notesConnection) {
-  throw new Error("notesConnection is undefined");
-}
+const mongoose = require('mongoose');
 
 const noteSchema = new mongoose.Schema({
-  title: String,
-  MT: Number,
-  TV: Number,
-});
+    title: { type: String, required: true },
+    MT: { type: Number, required: true },
+    TV: { type: Number, required: true }
+}, { timestamps: true });
 
-const Note = notesConnection.model("Note", noteSchema);
+const Note = mongoose.model('Note', noteSchema);
 
 module.exports = Note;
