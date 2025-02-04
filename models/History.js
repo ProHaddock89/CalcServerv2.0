@@ -1,12 +1,14 @@
-const { historyConnection } = require('../config/db').historyConnection;
 const mongoose = require('mongoose');
 
-const HistorySchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    PP: { type: Number, required: true },
-    SL: { type: Number, required: true },
-    NC: { type: Number, required: true },
-    result: { type: Number, required: true },
+const historySchema = new mongoose.Schema({
+    id: String,
+    title: String,
+    PP: Number,
+    SL: Number,
+    NC: Number,
+    result: Number,
 }, { timestamps: true });
 
-module.exports = historyConnection.model('History', HistorySchema);
+const History = mongoose.model('History', historySchema);
+
+module.exports = History;
