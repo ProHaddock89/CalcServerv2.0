@@ -27,6 +27,8 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     const { title, MT, TV } = req.body;
 
+    console.log("Received data:", req.body); // ✅ Debugging step
+
     if (!title || MT === undefined || TV === undefined) {
         return res.status(400).json({ message: "All fields are required" });
     }
@@ -34,12 +36,14 @@ router.post('/', async (req, res) => {
     try {
         const newNote = new Note({ title, MT, TV });
         await newNote.save();
+        console.log("Note saved:", newNote); // ✅ Debugging step
         res.status(201).json(newNote);
     } catch (err) {
+        console.error("Error saving note:", err); // ✅ Debugging step
         res.status(500).json({ message: err.message });
-        console.log(json({ message: err.message }))
     }
 });
+
 
 // ➤ Delete a note by ID
 router.delete('/:id', async (req, res) => {
