@@ -31,15 +31,17 @@ router.post("/", authenticateToken, async (req, res) => {
         console.log("👤 User ID:", req.user?.userId);
         console.log("📄 Note Data:", req.body);
 
-        if (!req.body.title || !req.body.content) {
+        const { title, MT, TV } = req.body;
+        if (!title || MT === undefined || TV === undefined) {
             console.error("❌ Missing note data!");
-            return res.status(400).json({ message: "Title and content are required" });
+            return res.status(400).json({ message: "Title, MT, and TV are required" });
         }
 
         const newNote = new Note({
             userId: req.user.userId, // Ensure this is set correctly
-            title: req.body.title,
-            content: req.body.content,
+            title,
+            MT,
+            TV
         });
 
         await newNote.save();
@@ -50,6 +52,7 @@ router.post("/", authenticateToken, async (req, res) => {
         res.status(500).json({ message: "Server error", error: error.message });
     }
 });
+
 
 
 
