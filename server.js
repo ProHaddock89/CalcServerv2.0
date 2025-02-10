@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const notesRoutes = require('./routes/notes');
+const userRoutes = require('./routes/signup');
 const historyRoutes = require('./routes/history'); // Import the new history route
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/notes', notesRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/history', historyRoutes); // Use history routes here
 
 const PORT = process.env.PORT || 5000;
