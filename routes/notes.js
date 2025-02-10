@@ -25,20 +25,14 @@ router.get('/:id', authenticateToken, async (req, res) => {
 });
 
 // ➤ Create a new note
-router.post("/", authenticateToken, async (req, res) => {
+app.post("/api/notes", async (req, res) => {
+    console.log("📌 Incoming Request Body:", req.body);
+    
     try {
-        console.log("🔹 Incoming request to save note");
-        console.log("👤 User ID:", req.user?.userId);
-        console.log("📄 Note Data:", req.body);
-
         const { title, MT, TV } = req.body;
-        if (!title || MT === undefined || TV === undefined) {
-            console.error("❌ Missing note data!");
-            return res.status(400).json({ message: "Title, MT, and TV are required" });
-        }
 
         const newNote = new Note({
-            userId: req.user.userId, // Ensure this is set correctly
+            userId: req.user.userId, // Ensure the userId is correct
             title,
             MT,
             TV
@@ -46,10 +40,11 @@ router.post("/", authenticateToken, async (req, res) => {
 
         await newNote.save();
         console.log("✅ Note saved:", newNote);
+        
         res.status(201).json(newNote);
     } catch (error) {
-        console.error("❌ Error saving note:", error);
-        res.status(500).json({ message: "Server error", error: error.message });
+        console.error("❌ Save Error:", error);
+        res.status(500).json({ message: "Error saving note", error: error.message });
     }
 });
 
