@@ -25,7 +25,7 @@ router.get('/:id', authenticateToken, async (req, res) => {
 });
 
 // ➤ Create a new note
-app.post("/api/notes", async (req, res) => {
+router.post("/api/notes", async (req, res) => {
     console.log("📌 Incoming Request Body:", req.body);
     
     try {
