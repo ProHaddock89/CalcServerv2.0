@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/Note');
-const authenticateToken = require('../middleware/authMiddleware'); // Ensure authentication
+const authenticateToken = require('../middleware/auth'); // Ensure authentication
 
 // ➤ Get all notes for logged-in user
 router.get('/', authenticateToken, async (req, res) => {
