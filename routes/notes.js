@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
 
     try {
         const newNote = new Note({ title, MT, TV });
-        await newNote.post();
+        await newNote.save();
         console.log("Note saved:", newNote); // ✅ Debugging step
         res.status(201).json(newNote);
     } catch (err) {
