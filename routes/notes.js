@@ -6,7 +6,7 @@ const authenticateToken = require('../middleware/auth'); // Ensure authenticatio
 // ➤ Get all notes for logged-in user
 router.get('/', authenticateToken, async (req, res) => {
     try {
-        const notes = await Note.find({ userId: req.user.id });
+        const notes = await Note.find({ userId: req.user.id }); // ✅ Only fetch notes for this user
         res.json(notes);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -27,13 +27,7 @@ router.get('/:id', authenticateToken, async (req, res) => {
 // ➤ Create a new note
 router.post('/', authenticateToken, async (req, res) => {
     const { title, MT, TV } = req.body;
-    const userId = req.user?.id; // Ensure this exists
-
-    console.log("User ID from token:", userId); // Debugging
-
-    if (!userId) {
-        return res.status(403).json({ message: "Unauthorized: No User ID" });
-    }
+    const userId = req.user.id;
 
     if (!title || MT === undefined || TV === undefined) {
         return res.status(400).json({ message: "All fields are required" });
@@ -42,10 +36,8 @@ router.post('/', authenticateToken, async (req, res) => {
     try {
         const newNote = new Note({ userId, title, MT, TV });
         await newNote.save();
-        console.log("Note saved:", newNote);
         res.status(201).json(newNote);
     } catch (err) {
-        console.error("Error saving note:", err);
         res.status(500).json({ message: err.message });
     }
 });
