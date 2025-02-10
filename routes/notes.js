@@ -25,22 +25,32 @@ router.get('/:id', authenticateToken, async (req, res) => {
 });
 
 // ➤ Create a new note
-router.post('/', authenticateToken, async (req, res) => {
-    const { title, MT, TV } = req.body;
-    const userId = req.user.id;
-
-    if (!title || MT === undefined || TV === undefined) {
-        return res.status(400).json({ message: "All fields are required" });
-    }
-
+router.post("/", authenticateToken, async (req, res) => {
     try {
-        const newNote = new Note({ userId, title, MT, TV });
+        console.log("🔹 Incoming request to save note");
+        console.log("👤 User ID:", req.user?.userId);
+        console.log("📄 Note Data:", req.body);
+
+        if (!req.body.title || !req.body.content) {
+            console.error("❌ Missing note data!");
+            return res.status(400).json({ message: "Title and content are required" });
+        }
+
+        const newNote = new Note({
+            userId: req.user.userId, // Ensure this is set correctly
+            title: req.body.title,
+            content: req.body.content,
+        });
+
         await newNote.save();
+        console.log("✅ Note saved:", newNote);
         res.status(201).json(newNote);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+    } catch (error) {
+        console.error("❌ Error saving note:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 });
+
 
 
 // ➤ Delete a note by ID (only if it belongs to the user)
