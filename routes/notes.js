@@ -25,14 +25,14 @@ router.get('/:id', authenticateToken, async (req, res) => {
 });
 
 // ➤ Create a new note
-router.post("/api/notes", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
     console.log("📌 Incoming Request Body:", req.body);
     
     try {
         const { title, MT, TV } = req.body;
 
         const newNote = new Note({
-            userId: req.user.userId, // Ensure the userId is correct
+            userId: req.user.id, // Use `id` consistently
             title,
             MT,
             TV
@@ -47,6 +47,7 @@ router.post("/api/notes", async (req, res) => {
         res.status(500).json({ message: "Error saving note", error: error.message });
     }
 });
+
 
 
 
