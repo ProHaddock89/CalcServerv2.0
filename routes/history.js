@@ -51,11 +51,12 @@ router.delete('/:id', authenticateToken, async (req, res) => {
 // ➤ Delete all history for logged-in user
 router.delete('/', authenticateToken, async (req, res) => {
     try {
-        await History.deleteMany({ userId: req.user.id });
-        res.json({ message: 'All history entries deleted successfully' });
+        const result = await History.deleteMany({ userId: req.user.id }); // ✅ Only delete user's history
+        res.json({ message: 'All history entries for the user deleted successfully', deletedCount: result.deletedCount });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 });
+
 
 module.exports = router;

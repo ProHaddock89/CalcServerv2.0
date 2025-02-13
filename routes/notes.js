@@ -26,7 +26,7 @@ router.get('/:id', authenticateToken, async (req, res) => {
 
 // ➤ Create a new note
 router.post("/", authenticateToken, async (req, res) => { // ✅ Add `authenticateToken`
-    console.log("📌 Incoming Request Body:", req.body);
+    //console.log("📌 Incoming Request Body:", req.body);
     
     try {
         const { title, MT, TV } = req.body;
@@ -39,7 +39,7 @@ router.post("/", authenticateToken, async (req, res) => { // ✅ Add `authentica
         });
 
         await newNote.save();
-        console.log("✅ Note saved:", newNote);
+        //console.log("✅ Note saved:", newNote);
         
         res.status(201).json(newNote);
     } catch (error) {
