@@ -14,7 +14,10 @@ const authenticateToken = (req, res, next) => {
     try {
         const verified = jwt.verify(token, process.env.JWT_SECRET);
         console.log("✅ Token Verified:", verified);
-        req.user = verified;
+
+        // ✅ Ensure `id` is set correctly
+        req.user = { id: verified.userId }; 
+
         next();
     } catch (err) {
         console.error("❌ Token verification failed:", err); // 🛑 Print full error

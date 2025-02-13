@@ -25,14 +25,14 @@ router.get('/:id', authenticateToken, async (req, res) => {
 });
 
 // ➤ Create a new note
-router.post("/", authenticateToken, async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => { // ✅ Add `authenticateToken`
     console.log("📌 Incoming Request Body:", req.body);
     
     try {
         const { title, MT, TV } = req.body;
 
         const newNote = new Note({
-            userId: req.user.id, // Use `id` consistently
+            userId: req.user.id, // ✅ Use `id`, not `userId`
             title,
             MT,
             TV
