@@ -22,6 +22,7 @@
     "mongoos": "^0.0.1-security",
     "mongoose": "^8.9.5",
     "react-router-dom": "^7.1.5",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "stripe": "^17.7.0"
   }
 }
