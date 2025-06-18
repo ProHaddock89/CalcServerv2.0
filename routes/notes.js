@@ -29,13 +29,15 @@ router.post("/", authenticateToken, async (req, res) => { // ✅ Add `authentica
     //console.log("📌 Incoming Request Body:", req.body);
     
     try {
-        const { title, MT, TV } = req.body;
+        const { title, MT, TV, FracOne, FracTwo } = req.body;
 
         const newNote = new Note({
             userId: req.user.id, // ✅ Use `id`, not `userId`
             title,
             MT,
-            TV
+            TV,
+            FracOne,
+            FracTwo
         });
 
         await newNote.save();
