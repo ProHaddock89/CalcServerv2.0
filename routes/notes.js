@@ -27,7 +27,7 @@ router.get('/:id', authenticateToken, async (req, res) => {
 // ➤ Create a new note
 router.post("/", authenticateToken, async (req, res) => { // ✅ Add `authenticateToken`
     //console.log("📌 Incoming Request Body:", req.body);
-    
+    console.log("📥 Incoming body:", req.body);  // <--- ADD THIS LINE
     try {
         const { title, MT, TV, FracOne, FracTwo } = req.body;
 
