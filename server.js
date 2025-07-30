@@ -7,6 +7,8 @@ const notesRoutes = require('./routes/notes');
 const userRoutes = require('./routes/signup');
 const historyRoutes = require('./routes/history'); // Import the new history route
 const loginRoutes = require("./routes/login");
+const usersRoutes = require("./routes/users");
+
 
 const app = express();
 
@@ -18,6 +20,7 @@ app.use('/api/notes', notesRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/history', historyRoutes); // Use history routes here
 app.use("/api/login", loginRoutes);
+app.use("/api/users", usersRoutes);
 
 const PORT = process.env.PORT || 5000;
 

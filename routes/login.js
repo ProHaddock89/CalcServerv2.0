@@ -29,5 +29,8 @@ router.post("/", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+const { changePassword } = require('../controllers/usersController');
+const authMiddleware = require('../middleware/auth');
 
+router.put('/change-password', authMiddleware, changePassword);
 module.exports = router;
