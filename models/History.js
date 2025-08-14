@@ -8,6 +8,8 @@ const historySchema = new mongoose.Schema({
     SL: Number,
     NC: Number,
     result: Number,
+    PR: Number,  // Add Percentage Risk field
+    AUM: Number, // Add Assets Under Management field
 }, { timestamps: true });
 
 const History = mongoose.model('History', historySchema);

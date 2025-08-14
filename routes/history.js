@@ -18,15 +18,25 @@ router.post('/', authenticateToken, async (req, res) => {
     console.log("🔹 Received request to save history:", req.body);
     console.log("🔹 Authenticated user ID:", req.user.id);
 
-    const { title, PP, SL, NC, result } = req.body;
+    const { title, PP, SL, NC, result, PR, AUM } = req.body; // Extract PR and AUM
 
     if (!title || PP === undefined || SL === undefined || NC === undefined || result === undefined) {
         console.error("❌ Missing fields in history entry:", req.body);
-        return res.status(400).json({ message: "All fields are required" });
+        return res.status(400).json({ message: "All required fields must be provided" });
     }
 
     try {
-        const newHistory = new History({ userId: req.user.id, title, PP, SL, NC, result });
+        const newHistory = new History({ 
+            userId: req.user.id, 
+            title, 
+            PP, 
+            SL, 
+            NC, 
+            result,
+            PR: PR !== undefined ? PR : null,   // Include PR (can be null)
+            AUM: AUM !== undefined ? AUM : null // Include AUM (can be null)
+        });
+        
         const savedHistory = await newHistory.save();
         console.log("✅ History saved successfully:", savedHistory);
         res.status(201).json(savedHistory);
@@ -35,7 +45,6 @@ router.post('/', authenticateToken, async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
-
 
 // ➤ Delete a specific history entry (only if it belongs to the user)
 router.delete('/:id', authenticateToken, async (req, res) => {
@@ -57,6 +66,5 @@ router.delete('/', authenticateToken, async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
-
 
 module.exports = router;
