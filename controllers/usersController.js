@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 // Add this import for your Asset model
-const Asset = require("../models/Asset"); // Adjust path as needed
+const Asset = require("../models/Note"); // Adjust path as needed
 
 const registerUser = async (req, res) => {
   try {
